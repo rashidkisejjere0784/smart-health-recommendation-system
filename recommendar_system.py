@@ -1,7 +1,6 @@
 import data_cleaning as data_cleaner
 import similarity
 import streamlit as st
-from secret import API_KEY
 import pandas as pd
 import streamlit.components.v1 as components
 import gmaps
@@ -12,7 +11,6 @@ data = pd.read_excel("Hospital Data.xlsx")
 DataCleaner = data_cleaner.DataCleaner()
 st.set_page_config(layout="wide")
 
-gmaps.configure(api_key=API_KEY)
 
 def display_hospital_info(hospital):
     with st.expander(f"{hospital['Hospital']} ({hospital['Location']})"):
@@ -35,40 +33,40 @@ def reload_page():
     # Immediately rerun the app from the top
     st.experimental_rerun()
 
-# Function to render the map
-def render_map(marker_locations):
-    st.subheader("Map View")
+# # Function to render the map
+# def render_map(marker_locations):
+#     st.subheader("Map View")
 
-    # Create a map figure centered at initial coordinates
-    initial_coordinates = (40.75, -74)
-    fig = gmaps.figure(center=initial_coordinates, zoom_level=12)
+#     # Create a map figure centered at initial coordinates
+#     initial_coordinates = (40.75, -74)
+#     fig = gmaps.figure(center=initial_coordinates, zoom_level=12)
 
-    # Create a list of marker locations based on user input
-    markers = gmaps.marker_layer(marker_locations)
-    fig.add_layer(markers)
+#     # Create a list of marker locations based on user input
+#     markers = gmaps.marker_layer(marker_locations)
+#     fig.add_layer(markers)
 
-    # Display the map using components.html()
-    components.html(fig)    
-    st.subheader("Map View")
+#     # Display the map using components.html()
+#     components.html(fig)    
+#     st.subheader("Map View")
 
-    # Create a map figure centered at initial coordinates
-    initial_coordinates = (40.75, -74)
-    map_figure = gmaps.figure(center=initial_coordinates, zoom_level=12)
+#     # Create a map figure centered at initial coordinates
+#     initial_coordinates = (40.75, -74)
+#     map_figure = gmaps.figure(center=initial_coordinates, zoom_level=12)
 
-    # Define locations for placemarks (markers)
-    marker_locations = [
-        (40.75, -74),  # Example marker 1 (latitude, longitude)
-        (40.8, -74.1),  # Example marker 2 (latitude, longitude)
-        (40.7, -74.2)   # Example marker 3 (latitude, longitude)
-    ]
+#     # Define locations for placemarks (markers)
+#     marker_locations = [
+#         (40.75, -74),  # Example marker 1 (latitude, longitude)
+#         (40.8, -74.1),  # Example marker 2 (latitude, longitude)
+#         (40.7, -74.2)   # Example marker 3 (latitude, longitude)
+#     ]
 
-    # Add markers to the map
-    markers = [gmaps.marker(location=loc) for loc in marker_locations]
-    marker_layer = gmaps.marker_layer(markers)
-    map_figure.add_layer(marker_layer)
+#     # Add markers to the map
+#     markers = [gmaps.marker(location=loc) for loc in marker_locations]
+#     marker_layer = gmaps.marker_layer(markers)
+#     map_figure.add_layer(marker_layer)
 
-    # Display the map using components.html()
-    components.html(map_figure)
+#     # Display the map using components.html()
+#     components.html(map_figure)
 
 
 # Main Streamlit app
@@ -106,7 +104,6 @@ def main():
                 display_hospital_info(hospital)
 
 
-
 def get_recommendation():
     global rating, latitude, longitude, payment_system, care_system, n
     # Placeholder for recommendation logic
@@ -134,8 +131,6 @@ def get_recommendation():
     st.session_state['hospital_indicies'] = hospital_indicies
 
     reload_page()
-
-
 
 if __name__ == "__main__":
     main()
