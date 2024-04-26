@@ -48,6 +48,7 @@ class DataCleaner():
     def get_vector_matrices(self, services : str, latitude = None, longitude = None, rating = None, care_system = None, payment = None) -> list:
         gen_vector = np.array([])
         Full_encoded_data = np.array([])
+        services = self.clean_text(services.lower())
 
         if latitude is not None:
             gen_vector = np.array([latitude])
