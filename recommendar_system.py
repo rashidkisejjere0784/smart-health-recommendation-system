@@ -17,6 +17,7 @@ def display_hospital_info(hospital):
         st.write(f"### {hospital['Location']}")
         st.write(f"**Services Offered:** {hospital['cleaned services']}")
         st.write(f"**Payment Options:** {hospital['payment']}")
+        st.write(f"**Care System:** {hospital['Care system']}")
         st.write(f"**Rating:** {hospital['rating']}")
 
         # Show website as a clickable link
@@ -105,7 +106,7 @@ def get_recommendation():
     hospital_indicies = similarity.get_grounded_predictions(vectors, full_encoded_data, n)
     st.session_state['hospital_indicies'] = hospital_indicies[::-1]
     print(hospital_indicies)
-    reload_page()
+    
 
 
 if __name__ == "__main__":
