@@ -1,9 +1,6 @@
-import data_cleaning as DataCleaning
-import similarity
 import pandas as pd
+import get_recommendation
 
-dataClean  = DataCleaning.DataCleaner()
-data = pd.read_excel("Hospital Data.xlsx")
 
 Location = "Kampala"
 Monday = "Open 24 hours"
@@ -18,12 +15,9 @@ payment = "cash"
 care_system = "Public"
 rating = 4
 
-point_vector, full_data = dataClean.get_vector_matrices(services=service,
-                                                         Location=Location,rating=rating,
-                                                         care_system=care_system)
+recomedentation = get_recommendation.get_recommendation(service, Location, 
+                                                        Monday, Tuesday, Wednesday,
+                                                          Thursday, Friday, Saturday, Sunday, 
+                                                          rating, care_system, payment)
 
-print(point_vector.shape, full_data.shape)
-
-hospital_indicies = similarity.get_grounded_predictions(point_vector, full_data)
-
-print(data['Hospital'].iloc[hospital_indicies])
+print(recomedentation)

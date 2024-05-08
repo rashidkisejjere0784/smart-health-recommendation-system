@@ -161,8 +161,8 @@ class DataCleaner():
         
         service_vector = self.vectorizer.transform([services])[0].toarray()
         gen_vector = np.concatenate([gen_vector,service_vector.ravel()])
+
+        print(gen_vector.shape, service_vector.shape, Full_encoded_data.shape, services_vectors.shape)
         Full_encoded_data = np.concatenate([Full_encoded_data, services_vectors], axis = 1)
 
         return gen_vector, Full_encoded_data
-
-

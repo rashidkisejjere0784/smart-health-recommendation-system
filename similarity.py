@@ -14,6 +14,7 @@ def calculate_cosine_similarity_grounded(point,Full_encoded_data, n=10):
 def get_grounded_predictions(point, full_data, n = 10, services_index = 205):
   point_services = point[-services_index:]
   top_choices = calculate_cosine_similarity_grounded(point_services, services_vectors, n= n)
+
   To_consider_vectors = full_data[top_choices, :-services_index]
   other_point_features = point[:-services_index]
 

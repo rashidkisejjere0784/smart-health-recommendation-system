@@ -3,7 +3,7 @@ import similarity
 import streamlit as st
 import pandas as pd
 import streamlit.components.v1 as components
-import gmaps
+import get_recommendation as recommendar
 
 data = pd.read_excel("Hospital Data.xlsx")
 
@@ -46,13 +46,8 @@ def main():
     with column_1:
         global services, payment_system, care_system, rating, Location
         st.subheader("Select Your Features")
-        subcol1, subcol2 = st.columns([3, 1])
-        with subcol1:
-            global services
-            services = st.text_input("Services", help="Which services are you looking for", on_change=get_recommendation)
-        with subcol2:
-            global n
-            n = st.selectbox("n", options=[10, 15, 20, 15], on_change=get_recommendation)
+        services = st.text_input("Services", help="Which services are you looking for", on_change=get_recommendation)
+
 
         payment_system = st.selectbox("Payment System", options=[None, "insurance", "No Payment", "cash"])
         care_system = st.selectbox("Care System", options=[None, "Public", "Private"])
@@ -88,26 +83,21 @@ def main():
 
         st.header("Recommended")
         if 'hospital_indicies' in st.session_state:
-            hospitals = data.iloc[st.session_state['hospital_indicies']]
+            hospitals = st.session_state['hospital_indicies']
             for index in range(len(hospitals)):
-                hospital = hospitals.iloc[index]
+                hospital = hospitals[index]
                 display_hospital_info(hospital)
 
 
 def get_recommendation():
-    vectors, full_encoded_data = DataCleaner.get_vector_matrices(services=services,
-                                                                 Location=Location, Monday=Monday, Tuesday=Tuesday, Wednesday=Wednesday,
-                                                                 Thursday=Thursday, Friday=Friday, Saturday=Saturday,
-                                                                 Sunday=Sunday, rating=rating,
-                                                                 payment=payment_system,
-                                                                 care_system=care_system
-                                                                 )
+    top_recommendation = recommendar.get_recommendation(
+        services,Location= Location,
+         Monday= Monday, Tuesday= Tuesday, Wednesday= Wednesday, Thursday= Thursday, 
+         Friday= Friday, Saturday = Saturday, Sunday= Sunday, payment= payment_system,
+         care_system= care_system, rating = rating,
+    )
     
-    hospital_indicies = similarity.get_grounded_predictions(vectors, full_encoded_data, n)
-    st.session_state['hospital_indicies'] = hospital_indicies[::-1]
-    print(hospital_indicies)
+    st.session_state['hospital_indicies'] = top_recommendation
     
-
-
 if __name__ == "__main__":
     main()
